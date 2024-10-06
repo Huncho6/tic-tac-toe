@@ -3,7 +3,7 @@ import Login from "./Login";
 import Reset from "./Reset";
 import SignUp from "./SignUp";
 import { useContext } from "react";
-import Forgot from "./Forgot";
+import Forgot from "./forgot";
 import { AuthContext } from "../../context/AuthContext";
 
 

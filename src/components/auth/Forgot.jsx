@@ -32,17 +32,27 @@ const [email, setEmail] = useState('');
   };
 
   return (
-    <div>
+    <div className='flex items-center justify-center flex-col bg-white min-h-screen w-full'>
+            <div className="text-center">
+          {/* Replace this with the logo or image shown in the screenshot */}
+          <div className="flex flex-col">
+          <span className="text-6xl mb-6 font-extrabold">X O</span>
+          <span className="text-6xl mb-6 font-extrabold">X O</span>
+          </div>
+        </div>
       <ToastContainer />
+      <div className='flex flex-col justify-center items-center bg-white bg-opacity-70  w-[350px] h-52 p-8'>
       <form onSubmit={handleForgotPassword}>
         <input
           type="email"
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className='w-full h-12 px-4 text-gray-950 bg-white border border-gray-300 rounded-lg mb-2'
         />
-        <button type="submit">Send Reset Token</button>
+        <button type="submit" className='w-full h-12 rounded-md text-black bg-white border-solid border-2 border-black font-bold'>Send Reset Token</button>
       </form>
+      </div>
     </div>
   );
 };
