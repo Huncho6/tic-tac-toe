@@ -14,8 +14,8 @@ const Game = () => {
       return <Navigate to="/auth/login" />;
     }
   return (
-    <div>
-      <Board />
+    <div className="min-h-screen bg-white dark:bg-black">
+      <Board  />
       <div>
         <button onClick={logOut}>logout</button>
       </div>

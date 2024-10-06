@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from "styled-components";
 import Square from './Square';
-
+import { useSelector } from 'react-redux';
 
 const Wrapper = styled.div`
   position: absolute;
@@ -19,20 +19,21 @@ const Container = styled.div`
 `;
 
 const RestartButton = styled.button`
+  background-color: ${({ isDarkMode }) => (isDarkMode ? '#121212' : 'black')};  
+  color: ${({ isDarkMode }) => (isDarkMode ? 'lightgreen' : 'white')};  
   font-size: 1.3em;
   margin-top: 1.5em;
   padding: 1em;
   border-radius: 8px;
-  background-color: black;
-  color: white;
   border: none;
   position: relative;
   margin: 1.5em auto 0 auto;
   display: block;
 `;
 
+
 const Popup = styled.div`
-  background: linear-gradient(135deg, #eaeaea, #e45454);
+  background: ${({ isDarkMode }) => (isDarkMode ? '#121212' : 'linear-gradient(135deg, #eaeaea, #e45454)')};
   height: 100%;
   width: 100%;
   position: absolute;
@@ -49,8 +50,8 @@ const Popup = styled.div`
   .new-game {
     font-size: 0.6em;
     padding: 0.5em 1em;
-    background-color: black;
-    color: #ffff;
+    background-color: ${({ isDarkMode }) => (isDarkMode ? '#121212' : 'black')};
+    color: ${({ isDarkMode }) => (isDarkMode ? 'lightgreen' : '#ffff')};
     border-radius: 0.2em;
     border: none;
     text-transform: uppercase;
@@ -58,7 +59,7 @@ const Popup = styled.div`
   }
 
   .message {
-    color: #ffffff;
+    color: ${({ isDarkMode }) => (isDarkMode ? 'lightgreen' : '#ffffff')};
     text-align: center;
     font-size: 1em;
     display: flex;
@@ -73,6 +74,7 @@ const Board = () => {
   const [xTurn, setXTurn] = useState(true);
   const [winner, setWinner] = useState(null);
   const [isDraw, setIsDraw] = useState(false);
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   
   const popupRef = useRef(null);
 
@@ -141,6 +143,7 @@ const Board = () => {
            key={index}
            value={value}
            onClick={() => handleClick(index)}
+           isDarkMode={isDarkMode}  
          />
         ))}
       </Container>
