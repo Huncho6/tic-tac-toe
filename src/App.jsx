@@ -3,6 +3,7 @@ import Auth from "./components/auth/Auth";
 import Game from "./pages/Game";
 import Profile from "./pages/Profile";
 import ToggleButton from "./context/ToggleButton";
+import Home from "./pages/Home";
  // Import the ToggleButton
 
 function App() {
@@ -18,7 +19,9 @@ function App() {
       <Routes>
         <Route path="/auth/*" element={<Auth />} /> {/* Auth page */}
         <Route path="/" element={<Game />} />       {/* Main app page */}
-        <Route path="/profile" element={<Profile />} />  {/* Profile page */}
+        <Route path="/profile" element={<Profile />} /> 
+        <Route path="/home" element={<Home />} />  
+         {/* Profile page */}
       </Routes>
     </>
   );

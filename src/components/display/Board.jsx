@@ -4,10 +4,30 @@ import Square from './Square';
 import { useSelector } from 'react-redux';
 
 const Wrapper = styled.div`
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  left: 50%;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: ${({ isDarkMode }) => (isDarkMode ? '#121212' : '#ffff')};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1em;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 400px;
+  color: ${({ isDarkMode }) => (isDarkMode ? 'lightgreen' : '#ffff')};
+  font-size: 1.5em;
+`;
+
+const ModeText = styled.div`
+  text-align: center;
+  margin-top: 1em;
+  color: ${({ isDarkMode }) => (isDarkMode ? 'lightgreen' : '#000')};
+  font-size: 1.2em;
 `;
 
 const Container = styled.div`
@@ -16,21 +36,19 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 2vmin;
+  margin-top: 2em;
 `;
 
 const RestartButton = styled.button`
   background-color: ${({ isDarkMode }) => (isDarkMode ? '#121212' : 'black')};  
   color: ${({ isDarkMode }) => (isDarkMode ? 'lightgreen' : 'white')};  
   font-size: 1.3em;
-  margin-top: 1.5em;
   padding: 1em;
   border-radius: 8px;
   border: none;
-  position: relative;
-  margin: 1.5em auto 0 auto;
-  display: block;
+  margin: 1.5em 0;
+  width: 80%;
 `;
-
 
 const Popup = styled.div`
   background: ${({ isDarkMode }) => (isDarkMode ? '#121212' : 'linear-gradient(135deg, #eaeaea, #e45454)')};
@@ -74,8 +92,9 @@ const Board = () => {
   const [xTurn, setXTurn] = useState(true);
   const [winner, setWinner] = useState(null);
   const [isDraw, setIsDraw] = useState(false);
+  const [playerScore, setPlayerScore] = useState(0);
+  const [botScore, setBotScore] = useState(0);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-  
   const popupRef = useRef(null);
 
   const winningPattern = [
@@ -105,6 +124,11 @@ const Board = () => {
       const [a, b, c] = pattern;
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
         setWinner(board[a]);
+        if (board[a] === 'X') {
+          setPlayerScore(prev => prev + 1);
+        } else {
+          setBotScore(prev => prev + 1);
+        }
         return;
       }
     }
@@ -123,12 +147,10 @@ const Board = () => {
 
   useEffect(() => {
     if (winner || isDraw) {
-      // Set the popup to be visible and take up the whole screen
       if (popupRef.current) {
         popupRef.current.style.display = 'flex';
       }
     } else {
-      // Hide the popup
       if (popupRef.current) {
         popupRef.current.style.display = 'none';
       }
@@ -136,20 +158,31 @@ const Board = () => {
   }, [winner, isDraw]);
 
   return (
-    <Wrapper>
+    <Wrapper isDarkMode={isDarkMode}>
+      <Header isDarkMode={isDarkMode}>
+        <div>You: {playerScore}</div>
+        <div>Bot: {botScore}</div>
+      </Header>
+
+      <ModeText isDarkMode={isDarkMode}>Your Turn</ModeText>
+
       <Container>
         {board.map((value, index) => (
-           <Square
-           key={index}
-           value={value}
-           onClick={() => handleClick(index)}
-           isDarkMode={isDarkMode}  
-         />
+          <Square
+            key={index}
+            value={value}
+            onClick={() => handleClick(index)}
+            isDarkMode={isDarkMode}
+          />
         ))}
       </Container>
-      <RestartButton onClick={restartGame}>Restart</RestartButton>
+
+      <RestartButton onClick={restartGame} isDarkMode={isDarkMode}>
+        Reset Game
+      </RestartButton>
+
       {(winner || isDraw) && (
-        <Popup ref={popupRef}>
+        <Popup ref={popupRef} isDarkMode={isDarkMode}>
           <p className="message">
             {winner ? `${winner} Wins! 🎉` : "It's a Draw! 😎"}
           </p>
