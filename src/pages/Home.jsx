@@ -12,7 +12,7 @@ const Home = () => {
         </button>
       </div>
 
-      /* Game Title and Icon */
+      {/* Game Title and Icon */}
       <div className="text-center">
         <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg mb-4">
           <div className="flex flex-col">
